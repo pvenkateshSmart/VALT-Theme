@@ -1,0 +1,124 @@
+    
+    <div ng-app="payroll" ng-controller="emploeeidproof">
+        <!-- header logo: style can be found in header.less -->
+        <!-- Content Header (Page header) -->
+        <div class="content-header">
+            <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                <h4 class="m-0 text-dark">Salary Attributes</h4>
+                </div><!-- /.col -->
+                <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                    <li class="breadcrumb-item active">Id Proof</li>
+                </ol>
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+            </div><!-- /.container-fluid -->
+        </div>
+        <!-- /.content-header -->
+    
+        <!-- Main content -->
+        <section class="content">
+            <div class="container-fluid">
+                 
+                <section class="content">
+                    <div class="container-fluid" ng-init="empidprooflist()">
+                        
+                      <div class="card card-primary card-outline">
+                        <!-- <div class="card-header">
+                          <h3 class="card-title">
+                            <i class="fas fa-user"></i>
+                            List Employees 
+                          </h3>
+                          <button type="button" class="btn btn-default btn-sm float-right" ng-click="addemptabdiv()">Add Employee</button>
+                        </div> -->
+                        <div class="card-body">
+                          <div class="row">
+                            <div class="col-md-9">
+                              <h4>Id Proof List</h4>
+                              <hr />
+                              <table class="table table-bordered mt-2" ng-show="listempidproof!=''">
+                                <thead>
+                                  <tr>
+                                  <th>#</th>
+                                  <th>Title</th>
+                                  <th>Number</th>
+                                  <th>Alphanumeric</th>
+                                  <th>Length</th>
+                                  <th>Mandatory</th>
+                                  <th>Edit</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  <tr ng-repeat="emp in listempidproof">
+                                    <td>{{$index+1}}</td>
+                                    <td>{{emp.Idp_code}}</td>
+                                    <td>{{emp.Idp_name}}</td>
+                                    <td>{{emp.Idp_is_alphanumeric}}</td>
+                                    <td>{{emp.Idp_length}}</td>
+                                    <td>{{emp.Idp_is_mandatory}}</td>
+                                    <td><button class="btn btn-warning btn-xs" ng-click="editidproof(emp)">Edit</button></td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                            </div>
+                            <div class="col-md-3">
+                              <h4>Add Id Proof <button class="btn btn-default btn-sm float-right" ng-show="hidecode==1" ng-click="pagereload()">Back</button></h4>
+                              
+                              <hr />
+                              <form ng-submit="AddIdProof(idproof)" id="idproofvalidate" name="idproofvalidate">
+                                <div class="row">
+                                  <div class="col-md-12 form-group" ng-show="hidecode==0">
+                                    <label>Id Proof Code</label>
+                                    <input type="text" ng-model="idproof.Idp_code" name="Idp_code" class="form-control" id="Idp_code" placeholder="Enter Id Proof Code" >
+                                    <span class="text-danger">{{dupeerr}}</span>
+                                  </div>
+                                  <div class="col-md-12 form-group">
+                                    <label>Id Proof Name</label>
+                                    <input type="text" ng-model="idproof.Idp_name" name="Idp_name" class="form-control" id="Idp_name" placeholder="Enter Id Proof Name" >
+                                  </div>
+                                  <div class="col-md-12 form-group">
+                                    <label>Is alphanumeric?</label><br />
+                                    
+                                      <label class="btn btn-secondary">
+                                        <input type="radio" name="Idp_is_alphanumeric" ng-model="idproof.Idp_is_alphanumeric" ng-value="true"> Yes
+                                      </label>
+                                      <label class="btn btn-secondary">
+                                        <input type="radio" name="Idp_is_alphanumeric" ng-model="idproof.Idp_is_alphanumeric" ng-value="false">  No
+                                      </label><div style="clear: both;"></div>
+                                    
+                                  </div>
+                                  <div class="col-md-12 form-group">
+                                    <label>Length</label>
+                                    <input type="number" ng-model="idproof.Idp_length" name="Idp_length" class="form-control" id="Idp_length" placeholder="Enter Length">
+                                  </div>
+                                  <div class="col-md-12 form-group">
+                                    <label>Mandatory</label><br />
+                                    
+                                      <label class="btn btn-secondary">
+                                        <input type="radio" name="Idp_is_mandatory" ng-model="idproof.Idp_is_mandatory" ng-value="true"> Yes
+                                      </label>
+                                      <label class="btn btn-secondary">
+                                        <input type="radio" name="Idp_is_mandatory" ng-model="idproof.Idp_is_mandatory" ng-value="false">  No
+                                      </label><div style="clear: both;"></div>
+                                    
+                                  </div>
+                                </div>
+                                <button type="submit" class="btn bg-primary">Submit</button>
+                              </form>
+                            </div>
+                          </div>
+                          
+                        </div>  
+                      </div> 
+
+                      
+                    </div>
+                </section>
+					
+            </div>
+        </section>
+      
+    </div>

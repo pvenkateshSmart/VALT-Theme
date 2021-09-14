@@ -1,0 +1,117 @@
+    
+    <div ng-app="payroll" ng-controller="emploeetabs">
+        <!-- header logo: style can be found in header.less -->
+        <!-- Content Header (Page header) -->
+        <div class="content-header">
+            <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                <h4 class="m-0 text-dark">Emploee Tabs</h4>
+                </div><!-- /.col -->
+                <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                    <li class="breadcrumb-item active">Emploee Tabs</li>
+                </ol>
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+            </div><!-- /.container-fluid -->
+        </div>
+        <!-- /.content-header -->
+    
+        <!-- Main content -->
+        <section class="content">
+            <div class="container-fluid">
+                
+                <section class="content">
+                    <div class="container-fluid" ng-init="emptabslist()">
+                        
+                      <div class="card card-primary card-outline">
+                        <!-- <div class="card-header">
+                          <h3 class="card-title">
+                            <i class="fas fa-user"></i>
+                            List Employees 
+                          </h3>
+                          <button type="button" class="btn btn-default btn-sm float-right" ng-click="addemptabdiv()">Add Employee</button>
+                        </div> -->
+                        <div class="card-body">
+                          <div class="row">
+                            <div class="col-md-9">
+                              <h4>Tabs List</h4>
+                              <hr />
+                              <table class="table table-bordered mt-2" ng-show="listemptabs!=''">
+                                <thead>
+                                  <tr>
+                                  <th>#</th>
+                                  <th>Code</th>
+                                  <th>Name</th>
+                                  <th>Permissions</th>
+                                  <th>Status</th>
+                                  <th>Edit</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  <tr ng-repeat="emp in listemptabs">
+                                    <td>{{$index+1}}</td>
+                                    <td>{{emp.Tab_Code}}</td>
+                                    <td>{{emp.Tab_Name}}</td>
+                                    <td>{{arrtocommastring(emp.Tab_Permissions)}}</td>
+                                    <td>{{emp.Tab_Status}}</td>
+                                    <td><button class="btn btn-warning btn-xs" ng-click="edittab(emp)">Edit</button></td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                            </div>
+                            <div class="col-md-3">
+                              <h4>Add Tabs</h4>
+                              <hr />
+                              <form ng-submit="AddEmpTabInfo(emptab)" name="adtabs">
+                                <div class="row">
+                                  <div class="col-md-12 form-group" ng-show="hidecode==0">
+                                    <label>Tabcode</label>
+                                    <input type="text" ng-model="emptab.Tab_Code" name="Tab_Code" class="form-control" id="Tab_Code" placeholder="Enter Tab Code" required>
+                                    <span class="text-danger">{{dupeerr}}</span>
+                                  </div>
+                                  <div class="col-md-12 form-group">
+                                    <label>TabName</label>
+                                    <input type="text" ng-model="emptab.Tab_Name" name="Tab_Name" class="form-control" id="Tab_Name" placeholder="Enter Tab Name" required>
+                                  </div>
+                                  <div class="col-md-12 form-group" ng-init="getpermlist()">
+                                    <label>Permissions</label>
+                                    <!-- {{myperm.selected}} -->
+                                    <!-- <pre>Selected Model: {{permModel}}</pre> -->
+                                    <div ng-dropdown-multiselect="" options="permissionslist" selected-model="permModel" checkboxes="true" extra-settings="permSettings"></div>
+                                    <!-- <ul class="list-group">
+                                      <li class="list-group-item pb-0 pt-2" ng-repeat="perm in permlist">
+                                        <input type="checkbox" ng-model="myperm.selected[$index]" ng-true-value="'{{perm.permission_type}}'" ng-false-value="''"> {{perm.permission_type}}</label>
+                                      </li>
+                                    </ul> -->
+                                  </div>
+                                  <div class="col-md-12 form-group">
+                                    <label>Tab Status</label><br />
+                                    
+                                      <label class="btn btn-secondary">
+                                        <input type="radio" name="Tab_Status" ng-model="emptab.Tab_Status" ng-value="true" required> Yes
+                                      </label>
+                                      <label class="btn btn-secondary">
+                                        <input type="radio" name="Tab_Status" ng-model="emptab.Tab_Status" ng-value="false" required>  No
+                                      </label>
+                                    
+                                  </div>
+                                </div>
+                                <button type="submit" class="btn bg-primary">Submit</button>
+                              </form>
+                            </div>
+                          </div>
+                          
+                        </div>  
+                      </div> 
+
+                      
+                    </div>
+                </section>
+					
+            </div>
+        </section>
+      
+    </div>

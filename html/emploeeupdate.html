@@ -1,0 +1,393 @@
+    
+    <div ng-app="library" ng-controller="emploeeupdate">
+        <!-- header logo: style can be found in header.less -->
+        <!-- Content Header (Page header) -->
+        <div class="content-header">
+            <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                <h4 class="m-0 text-dark">Emploee Master</h4>
+                </div><!-- /.col -->
+                <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                    <li class="breadcrumb-item active">Emploee Master</li>
+                </ol>
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+            </div><!-- /.container-fluid -->
+        </div>
+        <!-- /.content-header -->
+    
+        <!-- Main content -->
+        <section class="content">
+            <div class="container-fluid">
+                
+                <section class="content">
+                    <div class="container-fluid" ng-init="getdatabypaycode()">
+                       
+                      <!-- <div class="card card-primary card-outline">
+                        <div class="card-header">
+                          <h3 class="card-title">
+                            <i class="fas fa-user"></i>
+                            Add Employee
+                          </h3>
+                        </div>
+                        <div class="card-body">
+                            
+                        </div>  
+                      </div>    -->
+                      
+                      
+                      <div class="card card-primary card-outline card-outline-tabs">
+                        <div class="card-header p-0 border-bottom-0" ng-init="emptabslist()">
+                          <!-- {{listemptabs | json}} -->
+                          <ul class="nav nav-tabs" role="tablist">
+                            <li class="nav-item" ng-repeat="tabname in listemptabs">
+                              <a class="nav-link" ng-class="{active: tabdiv==tabname.Tab_Code}" ng-click="gettabform(tabname.Tab_Code)" href="">{{tabname.Tab_Name}}</a>
+                            </li>
+                          </ul>
+                        </div>
+                        <div class="card-body">
+                          
+                            <div class="tab-pane" ng-show="tabdiv=='Primary'">
+                              <form ng-submit="UpdateEmpprimary(empinfo)" name="primaryinfo">
+                                <div class="row">
+                                  <div class="col-md-4 form-group">
+                                    <label>Paycode</label>
+                                    <input type="text" ng-model="empinfo.paycode" name="paycode" class="form-control" id="paycode" placeholder="Enter paycode" required>
+                                  </div>
+                                  <div class="col-md-4 form-group" ng-init="getcampuslist()">
+                                    <label>Select Campus</label>
+                                    <select ng-model="empinfo.campusName" class="form-control" required>  
+                                      <option value="">Select Campus</option> 
+                                      <option ng-repeat="x in campuslist" value="{{x.campus_name}}">{{x.campus_name}}</option>
+                                    </select>
+                                  </div>
+                                  <div class="col-md-4 form-group">
+                                    <label>Employee Category</label>
+                                    <select ng-model="empinfo.category" class="form-control" required>  
+                                      <option value="">Select Employee Category</option> 
+                                      <option value="Teaching">Teaching</option>
+                                      <option value="Non Teaching">Non Teaching</option>  
+                                    </select>
+                                  </div> 
+                                  <div class="col-md-4 form-group">
+                                    <label>Employee Name</label>
+                                    <input type="text" ng-model="empinfo.empName" name="empName" class="form-control" id="empName" placeholder="Enter Employee Name" required>
+                                  </div>
+                                  <div class="col-md-4 form-group">
+                                    <label>Select Gender</label>
+                                    <select ng-model="empinfo.gender" class="form-control" required>  
+                                      <option value="">Select Gender</option>  
+                                      <option value="M">Male</option>
+                                      <option value="F">Female</option> 
+                                    </select>
+                                  </div>
+                                  <div class="col-md-4 form-group">
+                                    <label>Mobile No.</label>
+                                    <input type="text" ng-model="empinfo.mobileNo" name="mobileNo" class="form-control" id="mobileNo" placeholder="Enter Mobile No." required>
+                                  </div>
+                                  <div class="col-md-4 form-group">
+                                    <label>Whatsapp</label>
+                                    <input type="text" ng-model="empinfo.whatsapp" name="whatsapp" class="form-control" id="whatsapp" placeholder="Enter Whatsapp No.">
+                                  </div>
+                                  <div class="col-md-4 form-group">
+                                    <label>E-mail</label>
+                                    <input type="email" ng-model="empinfo.email" name="email" class="form-control" id="email" placeholder="Enter E-mail">
+                                  </div>
+                                  
+                                </div>
+                                <button type="submit" class="btn bg-primary">Submit</button>
+                              </form>
+                            </div>
+                            <div class="tab-pane" ng-show="tabdiv=='Personal'">
+                              <form ng-submit="UpdateEmppersonal(empinfo)" name="primaryinfo">
+                                <div class="row">
+                                  <div class="col-md-4 form-group">
+                                    <label>Paycode</label>
+                                    <input type="text" ng-model="paycode"  class="form-control" value="{{paycode}}" readonly>
+                                  </div>
+                                  
+                                  <div class="col-md-4 form-group">
+                                    <label>Father Name</label>
+                                    <input type="text" ng-model="empinfo.personal[0].FatherName" name="FatherName" class="form-control" id="FatherName" placeholder="Enter Employee Name" required>
+                                  </div>
+                                  <div class="col-md-4 form-group">
+                                    <label>Door No / Street</label>
+                                    <input type="text" ng-model="empinfo.personal[0].doornostreet" name="doornostreet" class="form-control" id="doornostreet" placeholder="Enter Door No / Street" required>
+                                  </div>
+                                  <div class="col-md-4 form-group">
+                                    <label>City Name</label>
+                                    <input type="text" ng-model="empinfo.personal[0].CityName" name="CityName" class="form-control" id="CityName" placeholder="Enter City Name" required>
+                                  </div>
+                                  <div class="col-md-4 form-group">
+                                    <label>Father Mobile No.</label>
+                                    <input type="text" ng-model="empinfo.personal[0].FatherMobileNo" name="FatherMobileNo" class="form-control" id="FatherMobileNo" placeholder="Enter Father Mobile No.">
+                                  </div>
+                                </div>
+                                <button type="submit" class="btn bg-primary">Submit</button>
+                              </form>
+                            </div>
+                            <div class="tab-pane" ng-show="tabdiv=='Bank'">
+                              <div class="row">
+                                <div class="col-md-6">
+                                  <table class="table table-bordered mt-2">
+                                    <thead>
+                                      <tr>
+                                      <th>#</th>
+                                      <th>Name</th>
+                                      <th>Bank</th>
+                                      <!-- <th>IFSCCODE</th>
+                                      <th>Branch</th> -->
+                                      <th>AccountNo</th>
+                                      <th>Primary</th>
+                                      <th>Edit</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                      <tr ng-repeat="bankin in empinfo.bank">
+                                      <td>{{$index+1}}</td>
+                                      <td>{{bankin.AccountName}}</td>
+                                      <td>{{bankin.BankName}}</td>
+                                      <!-- <td>{{bankin.IFSCCODE}}</td>
+                                      <td>{{bankin.BranchName}}</td> -->
+                                      <td>{{bankin.AccountNo}}</td>
+                                      <td>
+                                        <select ng-model="bankin.PrimaryAccount" ng-change="changeprimary(bankin)" class="form-control form-control-sm">  
+                                          <option value="">Select</option>  
+                                          <option value="YES">Yes</option>
+                                          <option value="NO">No</option> 
+                                        </select>
+                                      </td>
+                                      <td><a class="btn btn-warning btn-xs" ng-click="Editbankaccount(bankin)">Edit</a></td>
+                                      </tr>
+                                    </tbody>
+                                    </table>
+                                </div>
+                                <div class="col-md-6">
+                                  <form ng-submit="addbankaccout(bankinfo)" name="banksinfo">
+                                    <div class="row">
+                                      <div class="col-md-12 form-group">
+                                        <label>Paycode</label>
+                                        <input type="text" ng-model="paycode"  class="form-control" value="{{paycode}}" readonly>
+                                      </div>
+                                    </div>  
+                                    <div class="row">
+                                      <div class="col-md-6 form-group" ng-init="getbankslist()">
+                                        <label>Bank Name</label>
+                                        <select ng-model="bankinfo.BankName" name="BankName" class="form-control" id="BankName" required>  
+                                          <option value="">Select Bank</option>  
+                                          <option ng-repeat="x in bankslist" value="{{x.BankName}}">{{x.BankName}}</option> 
+                                        </select>
+                                      </div>
+                                      <div class="col-md-6 form-group">
+                                        <label>IFSCCODE</label>
+                                        <input type="text" ng-model="bankinfo.IFSCCODE" name="IFSCCODE" class="form-control" id="IFSCCODE" placeholder="Enter IFSCCODE" required>
+                                      </div>
+                                      <div class="col-md-6 form-group">
+                                        <label>Branch Name</label>
+                                        <input type="text" ng-model="bankinfo.BranchName" name="BranchName" class="form-control" id="BranchName" placeholder="Enter Branch Name" required>
+                                      </div>
+                                      <div class="col-md-6 form-group">
+                                        <label>Account No.</label>
+                                        <input type="text" ng-model="bankinfo.AccountNo" name="AccountNo" class="form-control" id="AccountNo" placeholder="Enter Father Account No." required>
+                                      </div>
+                                      <!-- <div class="col-md-6 form-group">
+                                        <label>Account Name.</label>
+                                        <input type="text" ng-model="bankinfo.AccountName" name="AccountName" class="form-control" id="AccountName" placeholder="Enter Father Account Name" required>
+                                      </div>
+                                      <div class="col-md-6 form-group">
+                                        <label>Primary Account</label>
+                                        <select ng-model="bankinfo.PrimaryAccount" class="form-control" required>  
+                                          <option value="">Select</option>  
+                                          <option value="YES">Yes</option>
+                                          <option value="NO">No</option> 
+                                        </select>
+                                      </div> -->
+                                    </div>
+                                    <button type="submit" class="btn bg-primary">Submit</button>
+                                  </form>
+                                </div>
+                              </div>
+                              
+
+                            </div>
+                            
+                            <div class="tab-pane" ng-show="tabdiv=='LinkEmployee'">
+                              
+                              <div class="row">
+                                <div class="col-md-6">
+                                  <table class="table table-bordered mt-2">
+                                    <thead>
+                                      <tr>
+                                        <th>#</th>
+                                        <th>Paycode</th>
+                                        <th>Employee</th>
+                                        <th>Delete</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                      <tr ng-show="empinfo.linkedemployees.length==0">
+                                        <td colspan="3" class="text-center font-weight-bold">No Data Found</td>
+                                      </tr>
+                                      <tr ng-repeat="linkemp in empinfo.linkedemployees">
+                                        <td>{{$index+1}}</td>
+                                        <td><a href="#/emploeeupdate/{{linkemp.LinkedPaycode}}">{{linkemp.LinkedPaycode}}</a></td>
+                                        <td>{{linkemp.EmployeeName}}</td>
+                                        <td><button type="button" class="btn btn-danger btn-sm" ng-click="deletelinkedobj(linkemp.LinkedPaycode)">Delete</button></td>
+                                      </tr>
+                                    </tbody>
+                                    </table>
+                                </div>
+                                <div class="col-md-6 form-group">
+                                  <form ng-submit="getempbypaycode()" name="linkEmployee">
+                                    <div class="row">
+                                      <div class="col-md-12 form-group">
+                                        <label>Paycode</label>
+                                        <input type="text" ng-model="paycodedata"  class="form-control">
+                                      </div>
+                                    </div>
+                                    <button type="submit" class="btn bg-primary">Submit</button>
+                                  </form>
+                                </div>
+                              </div>
+                              <table class="table table-bordered mt-2" ng-show="showlinkacc==1">
+                                <thead>
+                                  <tr>
+                                  <th>#</th>
+                                  <th>Paycode</th>
+                                  <th>Name</th>
+                                  <th>Branch</th>
+                                  <th>MobileNo</th>
+                                  <th>Link To</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  <tr>
+                                  <td>{{$index+1}}</td>
+                                  <td>{{infobypaycode.paycode}}</td>
+                                  <td>{{infobypaycode.empName}}</td>
+                                  <td>{{infobypaycode.campusName}}</td>
+                                  <td>{{infobypaycode.mobileNo}}</td>
+                                  <td><button type="button" class="btn btn-primary btn-xs" ng-click="LinkTheAccount(infobypaycode)">Linked</button></td>
+                                  </tr>
+                                </tbody>
+                                </table>
+                            </div>
+
+                            <div class="tab-pane" ng-show="tabdiv=='IdProof'" ng-init="empidprooflist()">
+                              <div class="row">
+                                <div class="col-md-6">
+                                  <table class="table table-bordered mt-2">
+                                    <thead>
+                                      <tr>
+                                      <th>#</th>
+                                      <th>Id Proof Name</th>
+                                      <th>Id Proof No.</th>
+                                      <th>Edit</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                      <tr ng-repeat="idp in empinfo.idproofs">
+                                      <td>{{$index+1}}</td>
+                                      <td>{{idp.IdProofName}}</td>
+                                      <td>{{idp.IdProofNo}}</td>
+                                      <td><button type="button" class="btn btn-primary btn-xs" ng-click="Editidproof(idp)">Edit</button></td>
+                                      </tr>
+                                    </tbody>
+                                    </table>
+                                </div>
+                                <div class="col-md-6">
+                                  <form ng-submit="UpdateEmpIdproof(empidp)" id="Idproof" name="Idproof">
+                                    <div class="row">
+                                      <div class="col-md-12 form-group">
+                                        <label>Paycode</label>
+                                        <input type="text" ng-model="paycode"  class="form-control" value="{{paycode}}" readonly>
+                                      </div>
+                                      <div class="col-md-6 form-group">
+                                        <label>Select Proof</label>
+                                        <select ng-model="empidp.IdProofName" name="IdProofName" class="form-control" required>  
+                                          <option value="">Select Proof</option> 
+                                          <option ng-repeat="idp in listempidproof" value="{{idp.Idp_code}}">{{idp.Idp_name}}</option>
+                                        </select>
+                                      </div>
+                                      <div class="col-md-6 form-group">
+                                        <label>Id Proof Number</label>
+                                        <input type="text" ng-model="empidp.IdProofNo" name="unqidproofno" class="form-control" required>
+                                      </div>
+                                      
+                                    </div>
+                                    <button type="submit" class="btn bg-primary">Add</button>
+                                    
+                                  </form>
+                                </div>
+                              </div>
+                              
+                            </div>
+
+
+
+
+                            <div class="tab-pane" ng-show="tabdiv=='Salary'" ng-init="getsalaryattr()">
+                              
+                              <div class="row">
+                                <div class="col-md-6">
+                                  <table class="table table-bordered mt-2">
+                                    <thead>
+                                      <tr>
+                                      <th>#</th>
+                                      <th>Attribute</th>
+                                      <th>Value</th>
+                                      <th>Edit</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                      <tr ng-repeat="slrattr in empinfo.currentsalary">
+                                      <td>{{$index+1}}</td>
+                                      <td>{{slrattr.AttributeName}}</td>
+                                      <td>{{slrattr.AttributeValue}}</td>
+                                      <td><button type="button" class="btn btn-primary btn-xs" ng-click="Editsalaryattr(slrattr)">Edit</button></td>
+                                      </tr>
+                                    </tbody>
+                                    </table>
+                                </div>
+                                <div class="col-md-6">
+                                  <form ng-submit="Updatesalaryattr(salaryattr)" id="SalaryAttr" name="SalaryAttr">
+                                    <div class="row">
+                                      <div class="col-md-12 form-group">
+                                        <label>Paycode</label>
+                                        <input type="text" ng-model="paycode"  class="form-control" value="{{paycode}}" readonly>
+                                      </div>
+                                      <div class="col-md-6 form-group">
+                                        <label>Attribute</label>
+                                        <select ng-model="salaryattr.AttributeName" name="AttributeName" class="form-control" required>  
+                                          <option value="">Select Attribute</option> 
+                                          <option ng-repeat="slr in salaryattrlist" value="{{slr.Sa_code}}">{{slr.Sa_name}}</option>
+                                        </select>
+                                      </div>
+                                      <div class="col-md-6 form-group">
+                                        <label>Value</label>
+                                        <input type="text" ng-model="salaryattr.AttributeValue" name="AttributeValue" class="form-control" required>
+                                      </div>
+                                      
+                                    </div>
+                                    <button type="submit" class="btn bg-primary">Submit</button>
+                                    
+                                  </form>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="tab-pane" ng-show="tabdiv==6">
+                              Other Info
+                            </div>
+                          
+                        </div>
+                      </div>
+                    </div>
+                </section>
+					
+            </div>
+        </section>
+      
+    </div>

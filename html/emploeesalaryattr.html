@@ -1,0 +1,117 @@
+    
+    <div ng-app="payroll" ng-controller="emploeesalaryattr">
+        <!-- header logo: style can be found in header.less -->
+        <!-- Content Header (Page header) -->
+        <div class="content-header">
+            <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                <h4 class="m-0 text-dark">Salary Attributes</h4>
+                </div><!-- /.col -->
+                <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                    <li class="breadcrumb-item active">Salary Attributes</li>
+                </ol>
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+            </div><!-- /.container-fluid -->
+        </div>
+        <!-- /.content-header -->
+    
+        <!-- Main content -->
+        <section class="content">
+            <div class="container-fluid">
+                 
+                <section class="content">
+                    <div class="container-fluid" ng-init="empslrattrlist()">
+                        
+                      <div class="card card-primary card-outline">
+                        <!-- <div class="card-header">
+                          <h3 class="card-title">
+                            <i class="fas fa-user"></i>
+                            List Employees 
+                          </h3>
+                          <button type="button" class="btn btn-default btn-sm float-right" ng-click="addemptabdiv()">Add Employee</button>
+                        </div> -->
+                        <div class="card-body">
+                          <div class="row">
+                            <div class="col-md-9">
+                              <h4>Salary Attributes List</h4>
+                              <hr />
+                              <table class="table table-bordered mt-2" ng-show="listempslrattr!=''">
+                                <thead>
+                                  <tr>
+                                  <th>#</th>
+                                  <th>Code</th>
+                                  <th>Name</th>
+                                  <th>Deductible</th>
+                                  <th>Mandatory</th>
+                                  <th>Edit</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  <tr ng-repeat="emp in listempslrattr">
+                                    <td>{{$index+1}}</td>
+                                    <td>{{emp.Sa_code}}</td>
+                                    <td>{{emp.Sa_name}}</td>
+                                    <td>{{emp.Sa_is_deductible}}</td>
+                                    <td>{{emp.Sa_is_mandatory}}</td>
+                                    <td><button class="btn btn-warning btn-xs" ng-click="editslrattr(emp)">Edit</button></td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                            </div>
+                            <div class="col-md-3">
+                              <h4>Add Salary Attribute</h4>
+                              <hr />
+                              <form ng-submit="AddSalaryAttr(slrattr)" name="salaryattr" id="salaryattr">
+                                <div class="row">
+                                  <div class="col-md-12 form-group" ng-show="hidecode==0">
+                                    <label>Code</label>
+                                    <input type="text" ng-model="slrattr.Sa_code" name="Sa_code" class="form-control" id="Sa_code" placeholder="Enter Salary Code" required>
+                                    <span class="text-danger">{{dupeerr}}</span>
+                                  </div>
+                                  <div class="col-md-12 form-group">
+                                    <label>Name</label>
+                                    <input type="text" ng-model="slrattr.Sa_name" name="Sa_name" class="form-control" id="Sa_name" placeholder="Enter Salary Name" required>
+                                  </div>
+                                  <div class="col-md-12 form-group">
+                                    <label>Is deductible?</label><br />
+                                    
+                                      <label class="btn btn-secondary">
+                                        <input type="radio" name="Sa_is_deductible" ng-model="slrattr.Sa_is_deductible" ng-value="true" required> Yes
+                                      </label>
+                                      <label class="btn btn-secondary">
+                                        <input type="radio" name="Sa_is_deductible" ng-model="slrattr.Sa_is_deductible" ng-value="false" required>  No
+                                      </label><div style="clear: both;"></div>
+                                    
+                                  </div>
+                                  <div class="col-md-12 form-group">
+                                    <label>Mandatory</label><br />
+                                    
+                                      <label class="btn btn-secondary">
+                                        <input type="radio" name="Sa_is_mandatory" ng-model="slrattr.Sa_is_mandatory" ng-value="true" required> Yes
+                                      </label>
+                                      <label class="btn btn-secondary">
+                                        <input type="radio" name="Sa_is_mandatory" ng-model="slrattr.Sa_is_mandatory" ng-value="false" required>  No
+                                      </label><div style="clear: both;"></div>
+                                    
+                                  </div>
+                                </div>
+                                <button type="submit" class="btn bg-primary">Submit</button>
+                              </form>
+                            </div>
+                          </div>
+                          
+                        </div>  
+                      </div> 
+
+                      
+                    </div>
+                </section>
+					
+            </div>
+        </section>
+      
+    </div>
