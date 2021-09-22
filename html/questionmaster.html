@@ -1,124 +1,157 @@
-    
-    <div ng-app="payroll" ng-controller="questionmaster">
-        <!-- header logo: style can be found in header.less -->
-        <!-- Content Header (Page header) -->
-        <div class="content-header">
-            <div class="container-fluid">
-            <div class="row mb-2">
-                <div class="col-sm-6">
-                <h4 class="m-0 text-dark">Question Master</h4>
-                </div><!-- /.col -->
-                <div class="col-sm-6">
-                <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="#">Home</a></li>
-                    <li class="breadcrumb-item active">Question Master</li>
-                </ol>
-                </div><!-- /.col -->
-            </div><!-- /.row -->
-            </div><!-- /.container-fluid -->
-        </div>
-        <!-- /.content-header -->
-    
-        <!-- Main content -->
-        <section class="content">
-            <div class="container-fluid">
-                
-                <section class="content">
-                    <div class="container-fluid" ng-init="employeeslist()">
-                        
-                      <div class="card card-primary card-outline" ng-show="listdiv==0">
-                        <div class="card-header">
-                          <h3 class="card-title">
-                            <i class="fas fa-question"></i>
-                            Questions
-                          </h3>
-                          <button type="button" class="btn btn-default btn-sm float-right" ng-click="addempoyeediv()">Add Question</button>
-                        </div>
-                        <div class="card-body">
-                          <table class="table table-bordered mt-2" ng-show="bankaccounts!=''">
-                            <thead>
-                              <tr>
-                              <th>#</th>
-                              <th>Paycode</th>
-                              <th>Employee</th>
-                              <th>Branch</th>
-                              <th>Mobile</th>
-                              <th>Category</th>
-                              <th>Edit</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              <tr ng-repeat="emp in listemployees">
-                              <td>{{$index+1}}</td>
-                              <td>{{emp.paycode}}</td>
-                              <td>{{emp.empName}}</td>
-                              <td>{{emp.campusName}}</td>
-                              <td>{{emp.mobileNo}}</td>
-                              <td>{{emp.category}}</td>
-                              <td><a class="btn btn-warning btn-xs" href="#/emploeeupdate/{{emp.paycode}}">Edit</a></td>
-                              </tr>
-                            </tbody>
-                          </table>
-                        </div>  
-                      </div> 
+<div ng-app="payroll" ng-controller="questionmaster">
+  <!-- header logo: style can be found in header.less -->
+  <!-- Content Header (Page header) -->
+  <div class="content-header" ng-init="onloadapis()">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <h4 class="m-0 text-dark">Question Master</h4>
+        </div><!-- /.col -->
+        <div class="col-sm-6">
+          <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item"><a href="#">Home</a></li>
+            <li class="breadcrumb-item active">Question Master</li>
+          </ol>
+        </div><!-- /.col -->
+      </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+  </div>
+  <!-- /.content-header -->
 
-                      <div class="card card-primary card-outline" ng-show="listdiv==1">
-                        <div class="card-header">
-                          <h3 class="card-title">
-                            <i class="fas fa-user"></i>
-                            Add Question
-                          </h3>
-                          <button type="button" class="btn btn-default btn-sm float-right" ng-click="listdiv=0">Back</button>
-                        </div>
-                        <div class="card-body">
-                            <form ng-submit="AddEmployeeInfo(qdata)" id="primaryinfo" name="primaryinfo">
-                              <div class="row">
-                                <div class="col-md-12 form-group">
-                                  <label>Question</label>                                   
-                                  <textarea   ng-model="emp.Qdesc" name="Qdesc" class="form-control" id="Qdesc" placeholder="Enter Question........!" rows="6" cols="6"></textarea>
-                                  <span class="text-danger">{{dupeerr}}</span>
-                                </div>
-                                <div class="col-md-4 form-group">
-                                  <label>Select Type</label>                                 
-                                  <div ng-dropdown-multiselect="" options="permissionslist" selected-model="permModel" checkboxes="true" extra-settings="qtypes"></div>
-                                </div>  
-                                <div class="col-md-4 form-group">
-                                  <label>Select Program</label>                                 
-                                  <div ng-dropdown-multiselect="" options="programlist" selected-model="programModel" checkboxes="true" extra-settings="programs"></div>
-                                </div> 
-                                <div class="col-md-4 form-group">
-                                  <label>Select Level</label>
-                                  <div ng-dropdown-multiselect="" options="levelslist" selected-model="levelsModel" checkboxes="true" extra-settings="levels"></div>
-                                </div>
-                                <div class="col-md-4 form-group">
-                                  <label>Select Topic</label>
-                                  <div ng-dropdown-multiselect="" options="topiclist" selected-model="levelsModel" checkboxes="true" extra-settings="levels"></div>
-                                </div>
-                                <div class="col-md-4 form-group">
-                                  <label>Mobile No.</label>
-                                  <input type="number" ng-model="emp.mobileNo" name="mobileNo" class="form-control" id="mobileNo" placeholder="Enter Mobile No.">
-                                </div>
-                                <div class="col-md-4 form-group">
-                                  <label>Whatsapp</label>
-                                  <input type="number" ng-model="emp.whatsapp" name="whatsapp" class="form-control" id="whatsapp" placeholder="Enter Whatsapp No.">
-                                </div>
-                                <div class="col-md-4 form-group">
-                                  <label>E-mail</label>
-                                  <input type="email" ng-model="emp.email" name="email" class="form-control" id="email" placeholder="Enter E-mail">
-                                </div>
-                                
-                              </div>
-                              <button type="submit" class="btn bg-primary">Submit</button>
-                            </form>
-                        </div>  
-                      </div>   
-                      
-                      
-                     
-                    </div>
-                </section>
-					
+  <!-- Main content -->
+  <section class="content">
+    <div class="container-fluid">
+
+      <section class="content">
+        <div class="container-fluid" ng-init="employeeslist()">
+
+          <div class="card card-primary card-outline" ng-show="listdiv==0">
+            <div class="card-header">
+              <h3 class="card-title">
+                <i class="fas fa-question"></i>
+                Questions
+              </h3>
+              <button type="button" class="btn btn-default btn-sm float-right" ng-click="Actionprocess()">Add
+                Question</button>
             </div>
-        </section>
-      
+
+         
+            <div class="card-body">
+              <div class="row">
+                
+              <div class="col-md-3 form-group">
+                <select name="prgm" id="prgm" ng-model="prgm" class="form-control" style="width: 100%;" required
+                  ng-change="selectsearch(prgm,topic)">
+                  <option value="">Select Program</option>
+                  <option ng-repeat="z in programs" value="{{z.ProgramName}}">{{z.ProgramName}}</option>
+                </select>
+  
+              </div>
+              <div class="col-md-3 form-group">
+                <select name="topic" id="topic" ng-model="topic" class="form-control" style="width: 100%;" required
+                  ng-change="selectsearch(prgm,topic)">
+                  <option value="">Select Tag</option>
+                  <option ng-repeat="z in Tagnames" value="{{z._id}}">{{z._id}}&nbsp;({{z.count}})</option>
+                </select>                
+              </div>
+              </div>
+              <table class="table table-bordered mt-2" ng-show="bankaccounts!=''">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Topic</th>
+                    <th>Programs</th>
+                    <th>Tags</th>
+                    <th>Qtypes</th>
+                    <th>Levels</th>
+                    <th>Date</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr ng-repeat="q in Qdata">
+                    <td>{{$index+1}}</td>
+                    <td>{{q.Topic}}</td>
+                    <td><span ng-repeat="p in q.Program">{{p}}<br /></span></td>
+                    <td><span ng-repeat="t in q.Tags">{{t}}<br /></span></td>
+                    <td><span ng-repeat="y in q.QType">{{y.TypeName}}<br /></span></td>
+                    <td><span>{{q.Level}}</td>
+                    <td>{{q.CreateDate | date:'MM-dd-yyyy h:m'}}</td>
+                    <td>
+                      <a class="btn btn-xs" href="#/questionupdate/{{q._id}}"><i class="nav-icon fas fa-pen"></i></a>
+                      <a class="btn btn-xs" ng-click="deleteQuestion(q._id)"><i class="nav-icon fas fa-trash"></i></a>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="card card-primary card-outline" ng-show="listdiv==1">
+            <div class="card-header">
+              <h3 class="card-title">
+                <i class="fas fa-user"></i>
+                Add Question
+              </h3>
+              <button type="button" class="btn btn-default btn-sm float-right" ng-click="listdiv=0">Back</button>
+            </div>
+            <div class="card-body">
+              <form id="primaryinfo" name="primaryinfo" role="form" name="myfrm" id="myfrm" novalidate>
+                <div class="row">
+                  <div class="col-md-12 form-group">
+                    <label>Question</label>
+                    <textarea ng-model="Que.Qdesc" name="Qdesc" class="form-control" id="Qdesc"
+                      placeholder="Enter Question........!" rows="6" cols="6"></textarea>
+                    <span class="text-danger">{{dupeerr}}</span>
+                  </div>
+                  <div class="col-md-4 form-group">
+                    <label>Question Type</label>
+                    <select name="type_id" id="type_id" ng-model="Que.type_id" class="select2" style="width: 100%;"
+                      multiple="multiple" required>
+                      <option ng-repeat="z in qtypes" value="{{z.TypeName}}">{{z.TypeName}}</option>
+                    </select>
+                  </div>
+                  <div class="col-md-4 form-group">
+                    <label>Program</label>
+                    <select name="programs" id="progrmaselect2" ng-model="Que.programs" class="select2"
+                      style="width: 100%;" multiple="multiple" required>
+                      <option ng-repeat="z in programs" value="{{z.ProgramName}}">{{z.ProgramName}}</option>
+                    </select>
+                  </div>
+                  <div class="col-md-4 form-group">
+                    <label>Level</label>
+                    <select name="level" id="level" ng-model="Que.level" class="form-control" style="width: 100%;"
+                      required>
+                      <option ng-repeat="z in levels" value="{{z.LevelName}}">{{z.LevelName}}</option>
+                    </select>
+                  </div>
+                  <div class="col-md-4 form-group">
+                    <label>Topic</label>
+                    <select name="topic" id="topiselect2" ng-model="Que.Topic" class="form-control" style="width: 100%;"
+                      required>
+                      <option ng-repeat="z in topics" value="{{z.TopicName}}">{{z.TopicName}}</option>
+                    </select>
+                  </div>
+              <pre ng-bind="Que | json"></pre>
+                  <div class="col-md-4 form-group">
+                    <label>Tags</label> 
+                    <input type="text" name="tags" ng-model="Que.Tags" class="form-control tagin" value="">
+                  </div>
+
+                </div>
+                <button type="submit" class="btn bg-primary" ng-click="AddEmployeeInfo(qdata)">Submit</button>
+              </form>
+            </div>
+          </div>
+
+
+
+        </div>
+      </section>
+
     </div>
+  </section>
+  <style>
+
+  </style>
+</div>

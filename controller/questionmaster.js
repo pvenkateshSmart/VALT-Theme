@@ -1,202 +1,234 @@
-angular.module('payroll').controller('questionmaster',function($scope,$http,$filter,$location, $localStorage,$window,$route,$rootScope,apiurl){
+angular.module('payroll').controller('questionmaster', function ($scope, $http, $filter, $location, $localStorage, $window, $route, $rootScope, apiurl) {
 
- 
- 	if(!$window.localStorage.getItem('logindata')){
-			window.location.href = 'login.html';
+
+	if (!$window.localStorage.getItem('logindata')) {
+		window.location.href = 'login.html';
+
+	}
+	$scope.userdata = JSON.parse($window.localStorage.getItem('logindata'));
+
+	//console.log($scope.userdata);
+
+	$scope.logountnow = function () {
+		window.localStorage.removeItem('logindata');
+		window.location.href = 'login.html';
+	}
+
+
+	var apiurl = apiurl.getUrl();
+	//console.log(apiurl);
+	//var apiurl = "http://10.60.1.19:3000/api/";
+	$scope.listdiv = 0;
+
+	$http.get('http://localhost:3001/Questionmaster/tags/').success((data) => {
+		console.log(data)
+		$scope.Tagnames = data;
+	});
+
+	
+	$http.get('http://localhost:3001/Questionmaster/').success((data) => {
+			//console.log(data)
+			$scope.Qdata = data;
+		});
+	$scope.selectsearch=function(p,t){
+		console.log(p,t);
+		 if(t==undefined){
+			var apset=p+'/null/';
+		 }else if(p==undefined){
+			var apset='null/'+t;
+		 }
+		else{
+			var apset=p+'/'+t;
 		}
-		$scope.userdata = JSON.parse($window.localStorage.getItem('logindata'));
+		//console.log('http://localhost:3001/Questionmaster/'+apset);
+		$http.get('http://localhost:3001/Questionmaster/'+apset).success((data) => {
+			//console.log(data)
+			$scope.Qdata = data;
+		});
+	}
+	$scope.onloadapis = function(){
+		$('.select2').select2()
+		tagin( document.querySelector('.tagin') );
+		$http.get('http://localhost:3001/Questionmaster').success((data) => {
+		//console.log(data)
+		$scope.Qdata = data;
+	});
+
+	$http.get('http://10.70.3.194:3001/questiontypes').success((data) => {
 		
-		//console.log($scope.userdata);
 		
-		$scope.logountnow =  function(){
-		 	window.localStorage.removeItem('logindata');
-		    window.location.href = 'login.html';
-	 	}
-			
-			 
-		var apiurl = apiurl.getUrl();
-		//console.log(apiurl);
-		//var apiurl = "http://10.60.1.19:3000/api/";
-		$scope.listdiv  = 0;
-		jQuery.validator.addMethod("noSpace", function(value, element) { 
-			return value.indexOf(" ") < 0 && value != ""; 
-			}, "spaces not allowed");	
-		$("#primaryinfo").validate({
-			rules: {
-				paycode: {
-					required: true,
-					noSpace: true,
-					digits : true
-				},
-				campusName: {
-					required: true
-				},
-				category: { 
-					required: true
-				},
-				empName: {
-					required: true
-				},
-				gender: { 
-					required: true
-				},
-				mobileNo: { 
-					required: true,
-					digits : true,
-					minlength : 10,
-					maxlength : 10 
-				}
+		// for (const el of document.querySelectorAll('.tagin')) {
+		// 	tagin(el)
+		//   }	 
+		//console.log(data);
+		$scope.qtypes = data;
+	})
+
+
+	$http.get('http://10.70.3.194:3001/Programs').success((data) => {
+		//console.log(data);
+		$scope.programs = data;
+
+	})
+
+	$http.get('http://10.70.3.194:3001/Levels').success((data) => {
+		//console.log(data);
+		$scope.levels = data;
+
+	})
+
+	$http.get('http://10.70.3.194:3001/Topics').success((data) => {
+		//console.log(data);
+		$scope.topics = data;
+
+	})
+	}
+
+
+
+	jQuery.validator.addMethod("noSpace", function (value, element) {
+		return value.indexOf(" ") < 0 && value != "";
+	}, "spaces not allowed");
+	$("#primaryinfo").validate({
+		rules: {
+			paycode: {
+				required: true,
+				noSpace: true,
+				digits: true
 			},
-			messages: {
-				paycode : {
-					required : 'Please enter Pay Code',
-					digits : 'Enter numbers only'
-				},
-				campusName: {
-					required: "Please Select campus name",
-				},
-				category: {
-					required : 'Please select category'
-				},
-				empName: {
-					required: "Please enter employee name"
-				},
-				gender: {
-					required: "Please select gender"
-				},
-				mobileNo: {
-					required : 'Mobile number is required',
-					number:"Provide mobile number",
-					digits : 'Enter numbers only',
-					minlength : 'Enter a 10 digits phone number',
-					maxlength : 'Enter a 10 digits phone number'
-				}
+			campusName: {
+				required: true
 			},
-			errorElement: 'span',
-			errorPlacement: function (error, element) {
+			category: {
+				required: true
+			},
+			empName: {
+				required: true
+			},
+			gender: {
+				required: true
+			},
+			mobileNo: {
+				required: true,
+				digits: true,
+				minlength: 10,
+				maxlength: 10
+			}
+		},
+		messages: {
+			paycode: {
+				required: 'Please enter Pay Code',
+				digits: 'Enter numbers only'
+			},
+			campusName: {
+				required: "Please Select campus name",
+			},
+			category: {
+				required: 'Please select category'
+			},
+			empName: {
+				required: "Please enter employee name"
+			},
+			gender: {
+				required: "Please select gender"
+			},
+			mobileNo: {
+				required: 'Mobile number is required',
+				number: "Provide mobile number",
+				digits: 'Enter numbers only',
+				minlength: 'Enter a 10 digits phone number',
+				maxlength: 'Enter a 10 digits phone number'
+			}
+		},
+		errorElement: 'span',
+		errorPlacement: function (error, element) {
 			error.addClass('invalid-feedback');
 			element.closest('.form-group').append(error);
-			},
-			highlight: function (element, errorClass, validClass) {
+		},
+		highlight: function (element, errorClass, validClass) {
 			$(element).addClass('is-invalid');
-			},
-			unhighlight: function (element, errorClass, validClass) {
+		},
+		unhighlight: function (element, errorClass, validClass) {
 			$(element).removeClass('is-invalid');
-			}
-		});	
-		$scope.empidprooflist  = function(){
-			$http.get(apiurl+"employeeidproof").success((data)=>{
-				//console.log(data);
-				$scope.listempidproof = data;
-			})
 		}
-	 
-			$http.get('http://10.70.3.194:3001/questiontypes').success((data)=>{
-				console.log(data);
-				$scope.qtypes = data;
-				$scope.permissionslist=[];
-				for(var i=0; i<$scope.qtypes.length; i++){
-					$scope.permissionslist[i] = {
-						"label":$scope.qtypes[i].TypeName,
-						"id":$scope.qtypes[i].ShortName
-					}
-				}
-				console.log($scope.permissionslist);
-			})
-			$scope.permModel = [];
-			$scope.qtypes = {
-				scrollableHeight: '200px',
-				scrollable: true,
-				enableSearch: true
-			};
+	});
 
 
-			$http.get('http://10.70.3.194:3001/Programs').success((data)=>{
-				console.log(data);
-				$scope.programs = data;
-				$scope.programlist=[];
-				for(var i=0; i<$scope.programs.length; i++){
-					$scope.programlist[i] = {
-						"label":$scope.programs[i].ProgramName,
-						"id":$scope.programs[i]._id
-					}
-				}
-				console.log($scope.permissionslist);
-			})
-			$scope.programModel = [];
-			$scope.programs = {
-				scrollableHeight: '200px',
-				scrollable: true,
-				enableSearch: true
-			};
-
-			$http.get('http://10.70.3.194:3001/Levels').success((data)=>{
-				console.log(data);
-				$scope.levels = data;
-				$scope.levelslist=[];
-				for(var i=0; i<$scope.levels.length; i++){
-					$scope.levelslist[i] = {
-						"label":$scope.levels[i].LevelName,
-						"id":$scope.levels[i].LevelShortName
-					}
-				}
-				console.log($scope.permissionslist);
-			})
-			$scope.levelsModel = [];
-			$scope.levels = {
-				scrollableHeight: '200px',
-				scrollable: true,
-				enableSearch: true
-			};
-
-	 
-		$scope.getcampuslist  = function(){
-			$http.get("http://b.aditya.ac.in/analysis/api/campus.php").success((data)=>{
-				//console.log(data);
-				$scope.campuslist = data;
-			})
-		}
-		$scope.addempoyeediv = function(){
-			$scope.listdiv  = 1;
-		}
-
-		$scope.AddEmployeeInfo = function(info){
-			//console.log(info);
-			let campusinfo = $scope.campuslist.filter(e=>e.campus_name==info.campusName);
-			console.log(campusinfo);
-			obj = {
-				paycode : info.paycode,
-				empName : info.empName,
-				gender : info.gender,
-				mobileNo : info.mobileNo,
-				whatsapp : info.whatsapp,
-				email : info.email,
-				campusId: campusinfo[0].id,
-				campusName : info.campusName,
-				category: info.category,
-				personal: [],
-				bank:[],
-				official: [],
-				linkedemployees : [],
-				idproofs: [],
-				currentsalary: [],
-				normssalary: [],
-				increments : [],
-				otherinfo : []
-			  }
-			  
-			$http.post(apiurl+"employeemaster",obj).success((data)=>{
-				console.log(data);
-				if(data.name=="MongoError"){
-					$scope.dupeerr = "Duplicate paycode";
-				} else {
-					$location.path('/emploeeupdate/'+data.data.paycode);
-				}
-			}, function (response) {
-				console.log(response);
-				// this function handles error
-			})  
-		}
+	
  
+	$scope.Actionprocess = function (qid) {
+		if (qid == undefined) {
+			$scope.listdiv = 1;
+		} else {
+			// 	$http.put("http://localhost:3001/Questionmaster/"+qid).success((data) => {
+			// 	console.log(data);
+			// 	$scope.Que=data;
+			// })
+		}
+	}
 
- });
+	// $('.select2').on('change', function() {
+	// 	//var data = $(".select2 option:selected").text();
+	// 	var cd=$(".select2").val();
+	// 	console.log(cd);
+	//   })
+	$scope.AddEmployeeInfo = function () {
+		//console.log(info);
+		$scope.Que.type_id = $(".select2").val();
+
+
+		$scope.Que.programs = $("#progrmaselect2").val();
+
+
+		//$scope.Que.levels = $("#levelselect2").val();
+
+		$scope.Que.Topic = $("#topiselect2").val();
+		//console.log($scope.Que.type_id);
+		$scope.QTypes = [];
+		for (var t = 0; t < $scope.Que.type_id.length; t++) {
+			//console.log($scope.qtypes);
+			var selected = $scope.qtypes.filter(e => e.TypeName == $scope.Que.type_id[t]);
+
+			//console.log(selected);
+			$scope.QTypes.push(selected[0]);
+		}
+		var myArr=[];
+		myArr = $scope.Que.Tags.split(",");
+//console.log($scope.Que.tags);
+		var obj = {
+			"QType": $scope.QTypes,
+			"Qmedia": [],
+			"Tags": myArr,
+			"Level": $scope.Que.level,
+			"Program": $scope.Que.programs,
+			"Qdesc": $scope.Que.Qdesc,
+			"Qid": 14092021153454,
+			"Topic": $scope.Que.Topic
+		};
+
+
+		console.log(obj);
+
+		$http.post('http://localhost:3001/Questionmaster', obj).success((data) => {
+			console.log(data);
+		});
+	}
+
+
+
+	$scope.deleteQuestion = function (questionid) {
+		var r = confirm("Are you sure you want delete this question !");
+		if (r == true) {
+			$http.delete("http://localhost:3001/Questionmaster/" + questionid).success((data) => {
+				//console.log(data);
+				$route.reload();
+			});
+		} else {
+		return false;
+		}
+	
+	}
+  
+
+
+});

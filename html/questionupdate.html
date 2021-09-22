@@ -1,0 +1,97 @@
+<div ng-app="payroll" ng-controller="questionmaster">
+  <!-- header logo: style can be found in header.less -->
+  <!-- Content Header (Page header) -->
+  <div class="content-header" ng-init="onloadapis()">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <h4 class="m-0 text-dark">Question Update</h4>
+        </div><!-- /.col -->
+        <div class="col-sm-6">
+          <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item"><a href="#">Home</a></li>
+            <li class="breadcrumb-item active">Question Update</li>
+          </ol>
+        </div><!-- /.col -->
+      </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+  </div>
+  <!-- /.content-header -->
+
+  <!-- Main content -->
+  <section class="content">
+    <div class="container-fluid">
+
+      <section class="content">
+        <div class="container-fluid">
+
+          <!-- <pre ng-bind="Que | json"></pre> -->
+
+          <div class="card card-primary card-outline">
+            <div class="card-header">
+              <h3 class="card-title">
+                <i class="fas fa-user"></i>
+                Add Question
+              </h3>
+              <a href="#/questionmaster"><button type="button"
+                  class="btn btn-default btn-sm float-right">Back</button></a>
+            </div>
+            <div class="card-body">
+              <form id="primaryinfo" name="primaryinfo" role="form" name="myfrm" id="myfrm" novalidate>
+                <div class="row">
+                  <div class="col-md-12 form-group">
+                    <label>Question</label>
+                    <textarea ng-model="Que.Qdesc" name="Qdesc" class="form-control" id="Qdesc"
+                      placeholder="Enter Question........!" rows="6" cols="6"></textarea>
+                    <span class="text-danger">{{dupeerr}}</span>
+                  </div>
+                  <div class="col-md-4 form-group">
+                    <label>Question Type</label>
+                    <select name="Qued" id="Qued" ng-model="Que.Qued" class="select2" multiple="multiple"
+                      ng-selected="selected" style="width: 100%;" required>
+                      <option ng-repeat="z in qtypes" value="{{z.TypeName}}">{{z.TypeName}}</option>
+                    </select>
+                  </div>
+                  <div class="col-md-4 form-group">
+                    <label>Program</label>
+                    <select name="programs" id="progrmaselect2" ng-model="Que.Program" class="select2"
+                      ng-selected="selected" multiple="multiple" style="width: 100%;" required>
+                      <option ng-repeat="z in programs" value="{{z.ProgramName}}">{{z.ProgramName}}</option>
+                    </select>
+                  </div>
+                  <div class="col-md-4 form-group">
+                    <label>Level</label>
+                    <select name="level" id="level" ng-model="Que.Level" class="form-control"
+                      ng-selected="selected" style="width: 100%;" required>
+                      <option ng-repeat="z in levels" value="{{z.LevelName}}">{{z.LevelName}}</option>
+                    </select>
+                  </div>
+                  <div class="col-md-4 form-group">
+                    <label>Topic</label>
+                    <select name="topic" id="topiselect2" ng-model="Que.Topic" class="form-control" style="width: 100%;"
+                      required>
+                      <option ng-repeat="z in topics" value="{{z.TopicName}}">{{z.TopicName}}</option>
+                    </select>
+                  </div>
+                  <div class="col-md-4 form-group" >
+                    <label>Tags</label>{{Que.Tagnames}}
+                    <input type="text" name="sasda" ng-model="Que.Tagnames" class="form-control tagin" value="{{Que.Tagnames}}" >
+                  </div>
+
+                </div>
+                <button type="submit" class="btn bg-primary" ng-click="UpdateEmployeeInfo()">Submit</button>
+              </form>
+            </div>
+          </div>
+
+
+
+        </div>
+      </section>
+
+    </div>
+  </section>
+  <style>
+
+  </style>
+</div>

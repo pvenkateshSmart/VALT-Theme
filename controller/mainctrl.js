@@ -1,4 +1,4 @@
-var app = angular.module("payroll", ['ngRoute','angularjs-dropdown-multiselect','ngStorage','oc.lazyLoad']);
+var app = angular.module("payroll", ['ngRoute','ngStorage','oc.lazyLoad']);
 
  app.service('apiurl', function () {
     var apipath = 'http:/10.70.3.194:3001/';
@@ -49,8 +49,8 @@ app.config([ "$ocLazyLoadProvider", function($ocLazyLoadProvider) {
 		        files: ['controller/questionmaster.js']
 		    },
         { 
-          name : 'emploeeupdate', 
-          files: ['controller/emploeeupdate.js']
+          name : 'questionupdate', 
+          files: ['controller/questionupdate.js']
       },
       { 
         name : 'emploeetabs', 
@@ -86,12 +86,12 @@ app.config(function($routeProvider) {
             }]
          }
 		})
-    .when('/emploeeupdate/:paycode', {
-			templateUrl: 'html/emploeeupdate.html',
-			controller: 'emploeeupdate',
+    .when('/questionupdate/:qid', {
+			templateUrl: 'html/questionupdate.html',
+			controller: 'questionupdate',
       resolve: {
             LazyLoadCtrl: ['$ocLazyLoad', function($ocLazyLoad) {
-                            return $ocLazyLoad.load('emploeeupdate'); // Resolve promise and load before view 
+                            return $ocLazyLoad.load('questionupdate'); // Resolve promise and load before view 
             }]
          }
 		})
